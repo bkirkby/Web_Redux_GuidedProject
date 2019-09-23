@@ -34,10 +34,22 @@ ReactDOM.render(
 );
 ```
 
+#### Initialize the titleReducer
+7. The initialization of the titleReducer from useReducer() happens in the useReducer hook. Since we aren't going to be using this call, we need to update the titleReducer.js to use the initialState.
+8. `export const titleReducer = (state `**= initialState**`, action) => {`
+
+#### Refactor useReducer() out of Title
+9. Since we are using redux and the reducer that comes with it, we don't need the reducer that's in Title.js
+10. delete `useReducer` from the import on the react line
+11. delete the `const [state, dispatch] = useReducer(titleReducer, initialState);` line
+12. delete the `import { initialState, titleReducer } from "../reducers/titleReducer";` line
+13. add a props variable to the function component definition
+15. comment out/delete the `dispatch` calls from the onClick handlers
+
 #### Connect a component to the Redux store
-7. We want to bring our title from the Redux store into the `Title` component, and render that as the title. We will "connect" Title with the connect function.
-8. `import { connect } from 'react-redux';`
-9. `connect` gets invoked twice
+16. We want to bring our title from the Redux store into the `Title` component, and render that as the title. We will "connect" Title with the connect function.
+17. `import { connect } from 'react-redux';`
+18. `connect` gets invoked twice
 - First invocation it takes in a function and an object (more on those in just a minute)
 - Second invocation it takes in the component we are connecting
 - Recognize this pattern? It's an HOC!!!
@@ -62,7 +74,8 @@ const mapStateToProps = state => {
 const mapStateToProps = state => {
   console.log(state);
   return {
-    title: state.title
+    title: state.title,
+    editing: state.editing,
   }
 }
 ```
@@ -73,13 +86,15 @@ const mapStateToProps = state => {
 const mapStateToProps = state => {
   console.log(state);
   return {
-    titleOnProps: state.title
+    titleOnProps: state.title,
+    editingOnProps: state.editing,
   }
 }
 ```
 
-- Now we have a "titleOnProps" prop in `Title`. Go look in the React tools.
-- In the header, change the hardcoded text to this -\`{this.props.titleOnProps}`
+- Now we have a "titleOnProps" prop and "editingOnProps" prop in `Title`. Go look in the React tools.
+- In the header, change the `state.title` to this -\`{props.titleOnProps}`
+- In the conditional statement, change the `state.editing` to this -\`{props.editingOnProps}`
 
 #### Actions, actions types, and action creators
 11. Now we have our title from Redux rendering. Let's use the input to give us a way to update our Redux state tree, therefore letting us change the title
@@ -108,12 +123,12 @@ export default connect(
 - In the React tools, check out props. We now have our action creator function passed in as a prop!
 
 16. Add an `onClick` handler on the button that will invoke a function called `updateTitle` (not to be confused with the action creator, which is available in this component as `props.updateTitle`).
-17. Create a function on the class called `updateTitle`. It will take in an event, call `preventDefault`, then call `this.props.updateTitle` and pass in the input text
+17. Create a function on the class called `updateTitle`. It will take in an event, call `preventDefault`, then call `props.updateTitle` and pass in the input text
 
 ```js
 updateTitle = e => {
   e.preventDefault();
-  this.props.updateTitle(this.state.newTitleText);
+  props.updateTitle(this.state.newTitleText);
 };
 ```
 
