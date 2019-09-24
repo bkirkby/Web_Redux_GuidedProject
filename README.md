@@ -167,7 +167,8 @@ export function updateTitle(title) {
 1. explain we want to now implement the club members interface
 2. create a friendsReducer.js
    ```javascript
-      export const friendsReducer = (state, action) => {
+      const initialState = {};
+      export const friendsReducer = (state=initialState, action) => {
          return state;
       };
    ```
