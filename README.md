@@ -163,11 +163,31 @@ export function updateTitle(title) {
 
 - This is where some Redux black magic happens. When an action creator returns an action object, that object gets passed into the reducer we made. Let's go handle that now.
 
+#### Combine reducers
+1. explain we want to now implement the club members interface
+2. create a friendsReducer.js
+   ```javascript
+      export const friendsReducer = (state, action) => {
+         return state;
+      };
+   ```
+4. create an index.js with combineReducer
+   ```javascript
+      import { combineReducers } from "redux";
+      import { titleReducer } from "./titleReducer";
+      import { friendsReducer } from "./friendsReducer";
+
+      export default combineReducers({
+        titleReducer,
+        friendsReducer
+      });
+   ```
+5. show that this changes the access to state in the mapStateToProps from `state.title` to `state.titleReducer.title`
 
 #### Dragon Club Members
 1. Move the `members` state from the `DragonList` component to the `initialState` object in the
-`reducer/index.js` file.
-2. Get the list of membersw from state, and render the
+`reducer/friendsReducer.js` file.
+2. Get the list of members from state, and render the
 list in the DOM. (Can have students lead here)
   - import connect into `DragonList`
   - connect component
